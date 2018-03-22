@@ -1,1 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+
+html, body{
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, sans-serif;
+    background: #455A64;
+}
+
+mat-card {
+    max-width: 80%;
+    margin: 1em auto;
+}
+  
+mat-toolbar-row {
+    justify-content: space-between;
+}
+  
+
+.line-attribute{
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.btn-delete{
+    width: 100px;
+}
+
+.errors{
+    padding: 5px;
+    width: 50%;
+    font-size: 12px;
+    color: red;
+    border: solid 1px #ebccd1;  
+}
+
+.tab-container{
+    padding-top: 20px;
+}
+
+.content-line-1{
+    width: calc(50% - 100px);
+    padding-right: 6px;
+    position: relative;
+}
+.content-line-2{
+    width: 50%;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.input-item{
+    width: 100%;
+}
+
+.input-item-2{
+    width: calc(50% - 10px);
+    margin-left: 10px;
+}
+
+
+.form-line{
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.form-line-1{
+    width: 100%;
+}
+
+.form-line-2{
+    width: 50%;
+}
+
+.form-line-3{
+    margin-left: 10px;
+}
+
+.container{
+    padding: 20px 10px 5px 10px;
+}
+
+.grid-container{
+    display: flex;
+    align-items:  flex-start;
+}
+
+.col-right{
+    width:  400px;
+    text-align:  left;
+    padding: 0px 10px;
+    box-sizing:  border-box;
+}
+
+.col-left{
+    width: calc(100% - 400px);
+}
+
+

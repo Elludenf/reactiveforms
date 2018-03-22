@@ -1,0 +1,32 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="column">
+      <mat-card>
+        <mat-tab-group formArrayName="categories">
+          <mat-tab *ngFor="let categoryTemplate of form.controls.categories.controls;let i = index;">
+            <ng-template mat-tab-label>
+              {{categoryTemplate.controls.categoryName.value}}
+            </ng-template>
+            <div class="container">
+              <app-attributes-list [category]="categoryTemplate"></app-attributes-list>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+      <div class="container text-right">
+        <button type="submit" mat-raised-button color="primary" [attr.disabled]="!form.valid ? true: null">Save Attributes</button>
+        <button type="button" mat-raised-button color="warn">Cancel</button>
+      </div>
+    </div>
+    <div class="column" style="padding-top: 20px">
+      <mat-toolbar color="primary">
+        <span>JSON PIPE</span>
+      </mat-toolbar>
+      <mat-card style="padding-top: 10px">
+        <pre>
+            {{form.value.categories | json}}
+        </pre>
+      </mat-card>
+    </div>
+  </form>
+</div>

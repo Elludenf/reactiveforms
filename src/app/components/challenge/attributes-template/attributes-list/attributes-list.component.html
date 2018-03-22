@@ -1,0 +1,147 @@
+<div [formGroup]="category">
+  <div formArrayName="items">
+    <div *ngFor="let item of category.controls.items.controls; let i = index;">
+      <div [formGroupName]="i" *ngIf="!first">
+        <div>
+          <div style="padding-top: 2px;">
+            <mat-divider *ngIf="!$last"></mat-divider>
+          </div>
+          <div>
+            <div class="line-attribute">
+              <div class="btn-delete">
+                <a mat-mini-fab href="javascript:void(0)" color="primary" (click)="deleteAttribute(category.controls.items,i);">
+                  <i class="material-icons">delete</i>
+                </a>
+              </div>
+              <div class="content-line-1">
+                <mat-input-container class="input-line">
+                  <input challengeDirective [error]="item.controls.name.invalid" matInput placeholder="Name" formControlName="name" class="input-item">
+                </mat-input-container>
+              </div>
+              <div class="content-line-2">
+                <mat-input-container class="input-item">
+                  <input matInput placeholder="Description" formControlName="description" class="input-item">
+                </mat-input-container>
+              </div>
+            </div>
+            <div class="line-attribute">
+              <div class="btn-delete"></div>
+              <div class="btncontent-line-1">
+                <div appErrorMessages control="Name" [invalid]="item.controls.name?.invalid" [errors]="item.controls.name.errors" class="errors"
+                  *ngIf="item.controls.name?.invalid && item.controls.name?.touched"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="form-line">
+            <div class="form-line-2">
+              <mat-form-field class="input-item-1 form-line-1">
+                <input id="resource" matInput placeholder="Device Resource Type" value="Default" [disabled]="true" disabled>
+              </mat-form-field>
+            </div>
+            <div class="form-line-2">
+              <mat-input-container class="input-item-2 form-line-1">
+                <input matInput placeholder="Default Value" formControlName="defaultValue" class="input-item" [readonly]="formats[item.controls.dataType.value]?.length == 0">
+              </mat-input-container>
+            </div>
+          </div>
+          <div class="form-line">
+            <div class="form-line-2">
+              <mat-form-field>
+                <mat-select placeholder="Data Type" formControlName="dataType" class="input-item-2 form-line-1">
+                  <mat-option *ngFor="let type of dataTypes" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-line-2">
+              <mat-form-field>
+                <mat-select placeholder="Format" (change)="resetValues(item.controls)" formControlName="format" [disabled]="formats[item.controls.dataType.value]?.length == 1"
+                  class="input-item-2 form-line-1">
+                  <mat-option *ngFor="let format of formats[item.controls.dataType.value]" [value]="format">
+                    {{format}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-line" *ngIf="item.controls.format.value === 'Number' && item.controls.dataType.value === 'String'">
+            <div class="form-line-2">
+              <div>
+                <mat-input-container class="input-item-2">
+                  <input challengeDirective [error]="item.controls.rangeMin.invalid" type="text" formControlName="rangeMin" matInput placeholder="Range Min">
+                </mat-input-container>
+              </div>
+              <div appErrorMessages control="Range min" [invalid]="item.controls.rangeMin?.invalid" [errors]="item.controls.rangeMin.errors"
+                class="errors" *ngIf="item.controls.rangeMin?.invalid && item.controls.rangeMin?.touched"></div>
+            </div>
+            <div class="form-line-2">
+              <mat-input-container class="input-item-2">
+                <input challengeDirective [error]="item.controls.rangeMax.invalid" type="text" formControlName="rangeMax" matInput placeholder="Range Max">
+              </mat-input-container>
+              <div appErrorMessages control="Range max" [invalid]="item.controls.rangeMax?.invalid" [errors]="item.controls.rangeMax.errors"
+                class="errors" *ngIf="item.controls.rangeMax?.invalid && item.controls.rangeMax?.touched"></div>
+            </div>
+          </div>
+          <div class="form-line" *ngIf="item.controls.format.value === 'Number' && item.controls.dataType.value === 'String'">
+            <div class="form-line-2">
+              <mat-input-container class="form-line-3">
+                <input type="text" formControlName="measureUnit" matInput placeholder="Unit of Measurement">
+              </mat-input-container>
+            </div>
+            <div class="form-line-2">
+              <mat-input-container class="form-line-3">
+                <input challengeDirective [error]="item.controls.precision?.invalid" type="text" formControlName="precision" matInput placeholder="Precision">
+              </mat-input-container>
+              <div appErrorMessages control="Precision" [invalid]="item.controls.precision?.invalid" [errors]="item.controls.precision.errors"
+                class="errors" *ngIf="item.controls.precision?.invalid && item.controls.precision?.touched"></div>
+            </div>
+            <div class="form-line-2">
+              <mat-input-container class="form-line-3">
+                <input challengeDirective [error]="item.controls.accuracy?.invalid" type="text" formControlName="accuracy" matInput placeholder="Accuracy">
+              </mat-input-container>
+              <div appErrorMessages control="Accuracy" [invalid]="item.controls.accuracy?.invalid" [errors]="item.controls.accuracy.errors"
+                class="errors" *ngIf="item.controls.accuracy?.invalid && item.controls.accuracy?.touched"></div>
+            </div>
+          </div>
+          <div *ngIf="item.controls.dataType.value == 'String' && item.controls.format.value === 'None'">
+            <mat-grid-list cols="2" rowHeight="1:0.5">
+              <mat-grid-tile>
+                <div>
+                  <mat-input-container>
+                    <input matInput type="text" formControlName="newEnumeration" placeholder="Enumerations" class="input-item">
+                  </mat-input-container>
+                  <button mat-button type="button" (click)="addEnumeration(item.controls.enumerations,item.controls.newEnumeration);" color="accent">
+                    <i class="material-icons">add_circle</i>{{newEnumeration}}
+                  </button>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div formArrayName="enumerations" *ngIf="item.controls.dataType.value == 'String' && item.controls.format.value === 'None'">
+                  <div *ngIf="item.controls.enumerations.controls.length>0">
+                    <small>Enumerations ({{item.controls.enumerations.controls.length}})</small>
+                  </div>
+                  <div *ngFor="let enumeration of item.controls.enumerations.controls; let e = index;">
+                    <mat-input-container>
+                      <input matInput type="text" [formControlName]="e" placeholder="Enumerations" class="input-item">
+                    </mat-input-container>
+                    <button mat-button type="button" (click)="removeEnumeration(item.controls.enumerations,e);">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </div>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding-top: 30px;">
+      <mat-divider *ngIf="!$last"></mat-divider>
+    </div>
+    <div style="text-align: center; padding: 2em">
+      <button type="button" mat-raised-button color="primary" (click)="addItem(category.controls.items)">Add attribute</button>
+    </div>
+  </div>
